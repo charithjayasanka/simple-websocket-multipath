@@ -19,11 +19,12 @@ It uses the lightweight `ws` library without any frameworks.
 
 - Handle multiple WebSocket paths (`/chat`, `/updates`, `/notifications`)
 - Clean separation of concerns per path
+- Sends welcome message to client upon connection (e.g., "Connected to WebSocket resource: /chat")
 - Full error handling for:
-  - Connection errors
-  - Unexpected server responses
-  - Message send failures
-  - Socket closures
+    - Connection errors
+    - Unexpected server responses
+    - Message send failures
+    - Socket closures
 - 404 handling for invalid paths
 - Clear console logging for all important events
 - Simple and minimal, ideal for learning or extending
@@ -74,24 +75,33 @@ and exchange simple test messages.
 
 ## 🖥️ Example Output
 
-**Server Console:**
+### Server Console:
 
 ```
 🚀 Server listening on port 8080
+🔄 Incoming WebSocket upgrade request: /updates
+✅ New connection on /updates from ::ffff:127.0.0.1
 🔄 Incoming WebSocket upgrade request: /chat
-✅ New connection on /chat from ::1
-📩 Message on /chat: Hello Chat!
+✅ New connection on /chat from ::ffff:127.0.0.1
+🔄 Incoming WebSocket upgrade request: /notifications
+✅ New connection on /notifications from ::ffff:127.0.0.1
+📩 Message on /updates: Hello /updates!
+📩 Message on /chat: Hello /chat!
+📩 Message on /notifications: Hello /notifications!
 ```
 
-**Client Console:**
+### Client Console:
 
 ```
-✅ Connected to /chat
-📩 Received from /chat: Echo from /chat: Hello Chat!
 ✅ Connected to /updates
-📩 Received from /updates: Echo from /updates: Hello Updates!
+📩 Received from /updates: 🟢 Connected to WebSocket resource: /updates
+✅ Connected to /chat
+📩 Received from /chat: 🟢 Connected to WebSocket resource: /chat
 ✅ Connected to /notifications
-📩 Received from /notifications: Echo from /notifications: Hello Notifications!
+📩 Received from /notifications: 🟢 Connected to WebSocket resource: /notifications
+📩 Received from /updates: Echo from /updates: Hello /updates!
+📩 Received from /chat: Echo from /chat: Hello /chat!
+📩 Received from /notifications: Echo from /notifications: Hello /notifications!
 ```
 
 ---

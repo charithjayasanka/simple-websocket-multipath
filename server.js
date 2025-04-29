@@ -12,7 +12,15 @@ const wssNotifications = new WebSocket.Server({ noServer: true });
 // Common function to handle events safely
 function setupWebSocketServer(wss, name) {
     wss.on('connection', (ws, request) => {
-        console.log(`✅ New connection on ${name} from ${request.socket.remoteAddress}`);
+        const clientIP = request.socket.remoteAddress;
+        console.log(`✅ New connection on ${name} from ${clientIP}`);
+
+        // Send welcome message to the client
+        try {
+            ws.send(`🟢 Connected to WebSocket resource: ${name}`);
+        } catch (err) {
+            console.error(`❌ Failed to send welcome message on ${name}:`, err.message);
+        }
 
         ws.on('message', (message) => {
             console.log(`📩 Message on ${name}: ${message}`);
